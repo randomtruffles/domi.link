@@ -20,3 +20,29 @@ collections:
       - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
       - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
       - {label: "Redirect", name: "redirect", hint: "What the custom short link should redirect to. You can edit this at any time.", widget:"string"}
+  - name: "tracer" # Used in routes, e.g., /admin/collections/blog
+    label: "tracer's shortlinks" # Used in the UI
+    folder: "" # The path to the folder where the documents are stored
+    filter: {field: "owner", value: "tracer"}
+    create: true # Allow users to create new documents in this collection
+    slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    editor:
+      preview: false
+    fields: # The fields for each document, usually in front matter
+      - {label: "Custom short link",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz - Note: Once you publish it, editing will not change the shortlink. You must delete the existing shortlink and create a new shortlink.", widget: "string"}
+      - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
+      - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
+      - {label: "Redirect", name: "redirect", hint: "What the custom short link should redirect to. You can edit this at any time.", widget:"string"}
+  - name: "truffles" # Used in routes, e.g., /admin/collections/blog
+    label: "truffles's shortlinks" # Used in the UI
+    folder: "" # The path to the folder where the documents are stored
+    filter: {field: "owner", value: "truffles"}
+    create: true # Allow users to create new documents in this collection
+    slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    editor:
+      preview: false
+    fields: # The fields for each document, usually in front matter
+      - {label: "Custom short link",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz - Note: Once you publish it, editing will not change the shortlink. You must delete the existing shortlink and create a new shortlink.", widget: "string"}
+      - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
+      - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
+      - {label: "Redirect", name: "redirect", hint: "What the custom short link should redirect to. You can edit this at any time.", widget:"string"}
