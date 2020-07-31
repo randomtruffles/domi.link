@@ -30,7 +30,7 @@ collections:
       preview: false
     fields: # The fields for each document, usually in front matter
       - {label: "Custom short link",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz - Note: Once you publish it, editing will not change the shortlink. You must delete the existing shortlink and create a new shortlink.", widget: "string"}
-      - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
+      - {label: "Owner", name: "owner", default: "tracer", widget: "hidden"}
       - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
       - {label: "Redirect", name: "redirect", hint: "What the custom short link should redirect to. You can edit this at any time.", widget:"string"}
   - name: "truffles" # Used in routes, e.g., /admin/collections/blog
@@ -43,6 +43,6 @@ collections:
       preview: false
     fields: # The fields for each document, usually in front matter
       - {label: "Custom short link",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz - Note: Once you publish it, editing will not change the shortlink. You must delete the existing shortlink and create a new shortlink.", widget: "string"}
-      - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
+      - {label: "Owner", name: "owner", default: "truffles", widget: "hidden"}
       - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
       - {label: "Redirect", name: "redirect", hint: "What the custom short link should redirect to. You can edit this at any time.", widget:"string"}
