@@ -1,0 +1,28 @@
+---
+layout: base
+permalink: /404.html
+title: 404 Error
+---
+<div class="wrapper">
+    <header>
+        {% if site.compass.logo %}
+        <div class="logo-container">
+          <a class="logo" href="{{ page.baseurl }}" style="background-image: url('{{ site.baseurl }}{{ site.compass.logo }}')"></a>
+        </div>
+        {% endif %}
+
+        {% if site.compass.author %}
+        <div class="author-container"><h1>{{ site.compass.author }}</h1></div>
+        {% endif %}
+
+        {% if site.compass.tagline %}
+        <div class="tagline-container"><p>{{ site.compass.tagline }}</p></div>
+        {% endif %}
+    </header>
+    <main>
+      <div class="content">
+        <h2>404 Error</h2>
+        <p>This page does not exist. Are you sure you entered the right URL? Someone must have been too lazy to make this page!</p>
+      </div>
+    </main>
+</div>
