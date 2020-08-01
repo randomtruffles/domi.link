@@ -1,0 +1,19 @@
+---
+layout: base
+---
+
+<div class = "wrapper">
+  <h1> <a href="https://domi.link">domi.link</a> links </h2>
+  <p>A list of all links created on domi.link</p>
+  <hr>
+  {% for page in site.pages %}
+    {% if page.layout == 'redirect' %}
+      {% if page.url contains 'dl-' %}
+      {% else %}
+      <p><a href="{{ page.url }}">domi.link{{ page.url }}</a> by {{ page.owner }}</p>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+</div>
