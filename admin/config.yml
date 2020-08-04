@@ -30,7 +30,7 @@ collections:
       preview: false
     fields: # The fields for each document, usually in front matter
       - {label: "Custom shortlink",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz. You cannot change this once published, just create a new one with the changed name.", widget: "string"}
-      - {label: "Owner", name: "owner", default: "RozyRoz", widget: "hidden"}
+      - {label: "Owner", name: "owner", default: "Mic Qsenoch", widget: "hidden"}
       - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit and change this at any time.", widget:"string"}
   - name: "RozyRoz" # Used in routes, e.g., /admin/collections/blog
