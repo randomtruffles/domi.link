@@ -1,6 +1,6 @@
 ---
-title: qc23-standings
+title: qc24-standings
 owner: RozyRoz
 layout: redirect
-redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vSH-i6EL0B8m3CjPDlKLfte-jVK7uaG58tbMaaasb9cT4vwMOM6UqfBo_r27PUbzHv-xU_1BBGA4_au/pubhtml
+redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vRTrDUEFGoJddYbfZTTG8nIfJay-NsjXEj-RGFROnxh5v0Oytt2-c_xpYLRBEhl9WF0YV4JuJfR5xug/pubhtml
 ---
