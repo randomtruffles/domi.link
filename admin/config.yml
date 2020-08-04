@@ -13,6 +13,7 @@ collections:
     filter: {field: "layout", value: "redirect"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    delete: true
     editor:
       preview: false
     fields: # The fields for each document, usually in front matter
@@ -26,6 +27,7 @@ collections:
     filter: {field: "owner", value: "Mic Qsenoch"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    delete: true
     editor:
       preview: false
     fields: # The fields for each document, usually in front matter
@@ -52,6 +54,7 @@ collections:
     filter: {field: "owner", value: "tracer"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    delete: true
     editor:
       preview: false
     fields: # The fields for each document, usually in front matter
@@ -65,6 +68,7 @@ collections:
     filter: {field: "owner", value: "truffles"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    delete: true
     editor:
       preview: false
     fields: # The fields for each document, usually in front matter
