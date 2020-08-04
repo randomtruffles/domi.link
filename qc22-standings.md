@@ -1,5 +1,5 @@
 ---
-title: qc25-standings
+title: qc22-standings
 owner: Mic Qsenoch
 layout: redirect
 redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vQcFdBeZNsBjQwBezpj83C1Hu_7FR2GHdenAzdnl42WiW952qkplDg_GUhHQ2xuk3leSrR9YL_mSjz4/pubhtml
