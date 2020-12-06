@@ -2,5 +2,5 @@
 title: order-vs-chaos
 owner: assemble_me
 layout: redirect
-redirect: https://docs.google.com/forms/d/e/1FAIpQLScGb1ixPYYJCivmgFWenOTcPnf7TcAJ02wYNx3jYNUeaXTvDw/viewform?fbzx=-4267579369219918734
+redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vTFBckiFQlaLxrwgm6jB_rM0leNclNBcCY7P8U4mbwSXpGJcfv1lDMb-TFOoL8DzrrRAGXYK7OBY6vj/pubhtml?gid=1834664115&single=true
 ---
