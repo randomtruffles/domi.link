@@ -49,7 +49,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit and change this at any time.", widget:"string"}
   - name: "muenstercheese" # Used in routes, e.g., /admin/collections/blog
     label: "muenstercheese's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "muenstercheese"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
