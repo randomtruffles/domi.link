@@ -9,7 +9,7 @@ media_folder: "images/shortlinks"
 collections:
   - name: "shortlinks" # Used in routes, e.g., /admin/collections/blog
     label: "Shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "layout", value: "redirect"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
@@ -23,7 +23,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit this at any time.", widget:"string"}
   - name: "assemble_me" # Used in routes, e.g., /admin/collections/blog
     label: "assemble_me's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "assemble_me"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
@@ -37,7 +37,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit and change this at any time.", widget:"string"}
   - name: "Mic Qsenoch" # Used in routes, e.g., /admin/collections/blog
     label: "Mic Qsenoch's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "Mic Qsenoch"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
@@ -65,7 +65,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit and change this at any time.", widget:"string"}
   - name: "RozyRoz" # Used in routes, e.g., /admin/collections/blog
     label: "RozyRoz's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "RozyRoz"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
@@ -78,7 +78,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit this at any time.", widget:"string"}
   - name: "tracer" # Used in routes, e.g., /admin/collections/blog
     label: "tracer's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "tracer"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
@@ -92,7 +92,7 @@ collections:
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit this at any time.", widget:"string"}
   - name: "truffles" # Used in routes, e.g., /admin/collections/blog
     label: "truffles's shortlinks" # Used in the UI
-    folder: "" # The path to the folder where the documents are stored
+    folder: "/" # The path to the folder where the documents are stored
     filter: {field: "owner", value: "truffles"}
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
