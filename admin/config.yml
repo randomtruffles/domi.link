@@ -14,8 +14,6 @@ collections:
     create: true # Allow users to create new documents in this collection
     slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
     delete: true
-    editor:
-      preview: false
     fields: # The fields for each document, usually in front matter
       - {label: "Custom shortlink",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz. You cannot change this once published, just create a new one with the changed name.", widget: "string"}
       - {label: "Owner", name: "owner", hint: "Eg. truffles - This is just for bookkeeping!", widget: "string"}
