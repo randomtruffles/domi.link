@@ -2,5 +2,5 @@
 title: sg10-results
 owner: RozyRoz
 layout: redirect
-redirect: https://docs.google.com/forms/d/e/1FAIpQLSc7joF0IoT_8c7GJR4Y8ugqm1RWB3-LqaRCqnsOBl4FURigPQ/viewform
+redirect: https://docs.google.com/forms/d/e/1FAIpQLSdMqA82Vd-wGiq8QBOW6u5vWESUJUrpVBxKuuGoEg8-HtylmA/viewform
 ---
