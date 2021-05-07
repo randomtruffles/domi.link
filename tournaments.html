@@ -1,0 +1,86 @@
+---
+layout: base
+---
+
+<div id="wrapper">
+</div>
+
+<script>
+var tournaments = {{ site.data.tournaments | jsonify }};
+
+tournaments.sort((a,b) => b.start.localeCompare(a.start));
+
+var wrapdivs = {"recurring": document.createElement('div'), "upcoming": document.createElement('div'), "ongoing": document.createElement('div'), "complete": document.createElement('div')};
+
+var descriptions = {
+	"recurring": "Tournaments repeated frequently",
+	"upcoming": "Tournaments with signups open",
+	"ongoing": "Tournaments currently being played",
+	"complete": "Tournaments that have finished"
+};
+
+for (status in wrapdivs) {
+	wrapdivs[status].id = status;
+	wrapdivs[status].classList.add("tournCat");
+	let title = document.createElement('h2');
+	title.appendChild(document.createTextNode(status[0].toUpperCase() + status.slice(1)));
+	wrapdivs[status].appendChild(title);
+	let desc = document.createElement('p');
+	desc.style.fontStyle = "italic";
+	desc.appendChild(document.createTextNode(descriptions[status]));
+	wrapdivs[status].appendChild(desc);
+}
+
+for (tourney of tournaments) {
+	let isRec = (tourney.status == "recurring");
+	let tdiv = document.createElement('div');
+	tdiv.classList.add('tournament');
+	tdiv.appendChild(document.createElement('hr'));
+	let name = document.createElement('h4');
+	let namelink = document.createElement('a');
+	namelink.href = tourney.link;
+	namelink.appendChild(document.createTextNode(tourney.name));
+	name.appendChild(namelink);
+	tdiv.appendChild(name);
+	let desc = document.createElement('p');
+	desc.innerHTML = tourney.description;
+	tdiv.appendChild(desc);
+	let byline = document.createElement('p');
+	byline.innerHTML = `Organizer(s): ${tourney.organizer}`;
+	tdiv.appendChild(byline);
+	let logistics = document.createElement('p');
+	let logisticsline = "Start date" + (isRec ? " (first): " : ": ") + tourney.start;
+	if (isRec) {logisticsline += " | Editions: " + tourney.editions;}
+	if (tourney.players) {logisticsline += " | Players" + (isRec ? " (latest): " : ": ") + tourney.players;}
+	logistics.appendChild(document.createTextNode(logisticsline));
+	tdiv.appendChild(logistics);
+	if (tourney.winner) {
+		let win = document.createElement('p');
+		win.appendChild(document.createTextNode((isRec ? "Previous winners: " : "Winner: ") + tourney.winner));
+		tdiv.appendChild(win);
+	}
+	if (tourney.altwinners) {
+		let altw = document.createElement('p');
+		altw.appendChild(document.createTextNode("Also recognized: " + tourney.altwinners));
+		tdiv.appendChild(altw);
+	}
+	wrapdivs[tourney.status].appendChild(tdiv);
+}
+
+var wrapper = document.getElementById("wrapper");
+for (status in wrapdivs) {
+	if (wrapdivs[status].childElementCount == 2) {
+		let noneMessage = document.createElement('p');
+		if (status == "upcoming") {
+			noneMessage.appendChild(document.createTextNode("There are no currently no new upcoming tournaments planned. If looking to participate in a competitive setting, check out the recurring section."));
+		} else {
+			//ongoing
+			noneMessage.appendChild(document.createTextNode("There are no currently no non-recurring tournaments ongoing."));
+		}
+		wrapdivs[status].appendChild(noneMessage);
+	} else {
+		wrapdivs[status].appendChild(document.createElement('hr'));
+	}
+	wrapper.appendChild(wrapdivs[status]);
+}
+</script>

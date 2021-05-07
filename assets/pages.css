@@ -1,0 +1,12 @@
+.tournCat > p, h2 {
+	text-align: center;
+}
+
+.tournament p, h4 {
+	margin: 0px;
+}
+
+#wrapper {
+	max-width: 1200px;
+	margin: auto;
+}

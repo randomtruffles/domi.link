@@ -1,0 +1,31 @@
+---
+layout: base
+---
+
+<div class="wrapper">
+    <header>
+        {% if site.compass.logo %}
+        <div class="logo-container">
+          <a class="logo" href="{{ site.baseurl }}" style="background-image: url('{{ site.baseurl }}{{ site.compass.logo }}')"></a>
+        </div>
+        {% endif %}
+
+        {% if site.compass.author %}
+        <div class="author-container"><h1>{{ site.compass.author }}</h1></div>
+        {% endif %}
+
+        {% if site.compass.tagline %}
+        <div class="tagline-container"><p>{{ site.compass.tagline }}</p></div>
+        {% endif %}
+    </header>
+    <main>
+      {% if site.compass.include_content %}
+      <div class="content">
+        <p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRhhW06VMZ_ytqcfik4bkxZx8TPP9jt11G6gqUSjcN91WyLncPYtmuiLQKtavpMGlXLmcrd5Q_n0BcH/pubhtml">Medium Games 1</a></p>
+		<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRgcqRw2VecutbPkKmyzJP5nfapYp_wf7mCTL1Y-naZ7OwwB_Vq0xHeeVawnCTngrmVdLL-tRkfU7pY/pubhtml">Medium Games 2</a></p>
+		<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTcLEGIxh2J902hwg5JxOGDVXBnq056F6h9iXVX_YfOdbv1OeCY-lsGs8e_dFtUfntvnSbOIwryO670/pubhtml">Medium Games 3</a></p>
+		<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQwpKE7K8hre0JCEHUwrKzcoDl2HZbyoXJ7VRGzFGS7D9pyxiQ1M3TMwVwLgJPoJ-xt5adlsJDPFk2P/pubhtml">Medium Games 4</a></p>
+      </div>
+      {% endif %}
+    </main>
+</div>
