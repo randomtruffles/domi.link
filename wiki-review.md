@@ -1,6 +1,6 @@
 ---
 title: wiki-review
-owner: truffles
+owner: muenstercheese
 layout: redirect
-redirect: https://docs.google.com/document/d/1a1cVX2h5yb-g3J2yk_GwBzPmldPRjIQtbOhHf6zCQ6c/edit?usp=sharing
+redirect: https://docs.google.com/document/d/1BXhVpfpSepF0yWzmyScQUi1UabQoKyTtRpbxKPygIKE/edit?usp=sharing
 ---
