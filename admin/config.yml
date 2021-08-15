@@ -102,3 +102,17 @@ collections:
       - {label: "Owner", name: "owner", default: "truffles", widget: "hidden"}
       - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
       - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit this at any time.", widget:"string"}
+  - name: "championship" # Used in routes, e.g., /admin/collections/blog
+    label: "championship's shortlinks" # Used in the UI
+    folder: "/" # The path to the folder where the documents are stored
+    filter: {field: "owner", value: "championship"}
+    create: true # Allow users to create new documents in this collection
+    slug: "{{title}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    delete: true
+    editor:
+      preview: false
+    fields: # The fields for each document, usually in front matter
+      - {label: "Custom shortlink",  name: "title", hint: "Example: Entering 'blitz' will create the domi.link at domi.link/blitz. You cannot change this once published, just create a new one with the changed name.", widget: "string"}
+      - {label: "Owner", name: "owner", default: "championship", widget: "hidden"}
+      - {label: "Layout", name: "layout", default: "redirect", widget: "hidden"}
+      - {label: "Redirect", name: "redirect", hint: "What the custom shortlink should redirect to. You can edit and change this at any time.", widget:"string"}
