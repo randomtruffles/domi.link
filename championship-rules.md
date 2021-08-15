@@ -2,5 +2,5 @@
 title: championship-rules
 owner: championship
 layout: redirect
-redirect: https://docs.google.com/document/d/1cB8QaRqiYuGI9avEAKqdvIJXyk2t6kXUmh7gSsBhjlI/edit
+redirect: https://docs.google.com/document/d/e/2PACX-1vTfnH5Rk4Sxzn_84CvY8-HBw56mru8iGb7RDSnI4PYRMNbPR-NC4ENU0VkScZs0HrJgYpWm0ZxqU0cf/pub
 ---
