@@ -2,5 +2,5 @@
 title: tournament-building-copy
 owner: tracer
 layout: redirect
-redirect: https://docs.google.com/spreadsheets/d/1cK5rLdeZZIeFyZvp-EtvclXOiQtxF_SJBO3zxTmeQoU/edit?usp=sharing
+redirect: https://docs.google.com/spreadsheets/d/1irjAWwmJro1vkgYmI1GLVHp6uNLMVWDmcfFMbppVnjI/edit?usp=sharing
 ---
