@@ -2,5 +2,5 @@
 title: champ2021-bracket
 owner: championship
 layout: redirect
-redirect: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vRz-7nWk93gOUmtkBIvVT0ppHK5AOmamMxyBFJJAsxLJi9IfZUhtwDBaQGj-lyP5L5HPtiF4A6xPvt1/pubhtml?gid=1718669522&single=true
 ---
