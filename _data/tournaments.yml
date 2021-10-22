@@ -1,16 +1,14 @@
 - name: Dominion League
   link: /league
   organizer: <a href="https://dominionleague.org/moderators">Dominion League moderator team</a>, first by Stef
-  winner: Mic Qsenoch (17), Stef (9), RTT (4), tracer (4), Rabid (3), markus (3), 4 at 1
   status: recurring
-  editions: 45
+  editions: 48
   start: 2014-05-18
   players: 776
   description: The Dominion League is a free online tournament for competitive Dominion at all skill levels. See the <a href="https://dominionleague.org/current-standings">current season's standings</a> or <a href="https://dominionleague.org/sign-ups">sign up for the next season</a>.
 - name: Quarantine Cup
   link: /qcup
   organizer: Mic Qsenoch
-  winner: tracer (7), xyrix (7), Mic Qsenoch (6), dan brooks (5), SamE (5), seanahan (5), Lemonspawn (3), 3 at 2, 16 at 1
   status: recurring
   editions: 60
   start: 2020-03-22
@@ -19,32 +17,31 @@
 - name: Big Games
   link: /big-games
   organizer: assemble me
-  status: ongoing
+  status: recurring
+  editions: 4
   start: 2021-04-04
   players: 10
   description: A tournament for players with leaderboard mu between 1.1 and 1.6.
 - name: Medium Games
   link: /medium-games
   status: recurring
-  editions: 4
-  organizer: catmom, SSounder
-  winner: seanahan, assemble me, Fika Monster
+  editions: 7
+  organizer: SSounder
   start: 2020-08-25
   players: 15
   description: A tournament for players with leaderboard mu between 0.5 and 1.1.
 - name: Small Games
   link: /small-games
   status: recurring
-  editions: 11
+  editions: 14
   organizer: Rozyroz
-  winner: 11 at 1
   start: 2020-03-20
   players: 20
   description: A tournament for players with leaderboard mu below 0.5.
 - name: Renaissance Mix
   link: /renaissance-mix
   organizer: tracer
-  status: ongoing
+  status: complete
   start: 2021-05-01
   players: 60
   description: Kingdoms from a set of 75 cards and some landscapes curated by Donald X. focusing on Renaissance cards, coffers, villagers, artifacts, ways to save cards/effects, permanent abilities, and simple cards.
