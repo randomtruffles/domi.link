@@ -10,11 +10,11 @@
 - name: Quarantine Cup
   link: /qcup
   organizer: Mic Qsenoch
-  winner: tracer (7), xyrix (7), Mic Qsenoch (6), dan brooks (5), seanahan (5), Lemonspawn (3), 3 at 2, 15 at 1
+  winner: tracer (7), xyrix (7), Mic Qsenoch (6), dan brooks (5), SamE (5), seanahan (5), Lemonspawn (3), 3 at 2, 16 at 1
   status: recurring
   editions: 60
   start: 2020-03-22
-  players: 12
+  players: 14
   description: A one day tournament held weekly on the Dominion Discord. Players compete in an open round followed by playoffs.
 - name: Big Games
   link: /big-games
