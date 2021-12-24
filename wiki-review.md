@@ -2,5 +2,5 @@
 title: wiki-review
 owner: muenstercheese
 layout: redirect
-redirect: https://docs.google.com/document/d/1_cG50M6-rfsz167S4HCLPyZjXrcW2JBSiJF_vIwlLEY/edit?usp=sharing
+redirect: https://docs.google.com/document/d/1e1WuFIqH7Rf27_95Y69wRKsaFtgrIa1nRESy2s64sT4/edit?usp=sharing
 ---
