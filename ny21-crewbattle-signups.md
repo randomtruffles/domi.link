@@ -2,5 +2,5 @@
 title: ny21-crewbattle-signups
 owner: terracubist
 layout: redirect
-redirect: https://discord.com/channels/@me/684894508516638723/925535840627748875
+redirect: https://forms.gle/n8kS25CQ8uokEx8v5
 ---
