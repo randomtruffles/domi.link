@@ -2,5 +2,5 @@
 title: wiki-review
 owner: terracubist
 layout: redirect
-redirect: https://docs.google.com/document/d/1e1WuFIqH7Rf27_95Y69wRKsaFtgrIa1nRESy2s64sT4/edit?usp=sharing
+redirect: https://docs.google.com/document/d/1b8vlwdrCn22a7p76XCAUgnJ291D8JTWHQVChLM4I0iM/edit?usp=sharing
 ---
