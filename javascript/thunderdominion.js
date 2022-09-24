@@ -100,19 +100,6 @@ function loadPage() {
 		}
 		
 		ranks[expansion].year = ranks[expansion].year.map(y => String(y));
-		expCards.sort((a,b) => {
-			let ra = ranks[expansion][a].rank[0];
-			let rb = ranks[expansion][b].rank[0];
-			if (ra == rb) {
-				return 0;
-			} else if (ra == -1) {
-				return 1;
-			} else if (rb == -1) {
-				return -1;
-			} else {
-				return ra - rb;
-			}
-		});
 		
 		let ediv = document.createElement('div');
 		ediv.appendChild(document.createElement('hr'));
@@ -126,12 +113,14 @@ function loadPage() {
 			ediv.appendChild(enote);
 		}
 		let tab = document.createElement('table');
-		tab.appendChild(renderTable(expansion, expCards));
+		tab.id = expansion.toLowerCase().replace(/ /g, '-') + "-table";
+		tab.classList.add('thundertable');
+		tab.appendChild(renderTable(expansion, ranks[expansion]['year'][0], false));
 		ediv.appendChild(tab);
 	}
 }
 
-function renderTable(expansion, cardOrder) {
+function renderTable(expansion, sortBy, desc) {
 	let etable = document.createElement('tbody');
 	let ethead = document.createElement('tr');
 	let descriptor = document.createElement('th');
@@ -139,15 +128,49 @@ function renderTable(expansion, cardOrder) {
 	ethead.appendChild(descriptor);
 	for (y of ranks[expansion].year.slice().reverse()) {
 		let year = document.createElement('th');
-		year.appendChild(document.createTextNode(y));
+		year.onclick = sortTable;
+		year.appendChild(document.createTextNode(y + (y == sortBy ? (desc ? '▼' : '▲') : '')));
 		ethead.appendChild(year);
 		if (!y.includes('takes') && y != '2018' && !(expansion == "Menagerie Ways" && y == 2020)) {
 			let pm = document.createElement('th');
-			pm.appendChild(document.createTextNode('+/-'));
+			pm.onclick = sortTable;
+			pm.appendChild(document.createTextNode('+/-' + (y == (sortBy.includes(' diff') && sortBy.split(' ')[0]) ? (desc ? '▼' : '▲') : '')));
 			ethead.appendChild(pm);
 		}
 	}
 	etable.appendChild(ethead);
+	let cardOrder = Object.keys(ranks[expansion]).filter(x => x !== 'year');
+	if (sortBy.includes('diff')) {
+		let orderIndex = ranks[expansion]['year'].indexOf(sortBy.split(' ')[0]);
+		cardOrder.sort((a,b) => {
+			let da = ranks[expansion][a].diff[orderIndex];
+			let db = ranks[expansion][b].diff[orderIndex];
+			if (da === db) {
+				return 0;
+			} else if (da === null) {
+				return 1;
+			} else if (db === null) {
+				return -1;
+			} else {
+				return (desc ? -1 : 1) * (da - db);
+			}
+		});
+	} else {
+		let orderIndex = ranks[expansion]['year'].indexOf(sortBy);
+		cardOrder.sort((a,b) => {
+			let ra = ranks[expansion][a].rank[orderIndex];
+			let rb = ranks[expansion][b].rank[orderIndex];
+			if (ra == rb) {
+				return 0;
+			} else if (ra == -1) {
+				return 1;
+			} else if (rb == -1) {
+				return -1;
+			} else {
+				return (desc ? -1 : 1) * (ra - rb);
+			}
+		});
+	}
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
 		let name = document.createElement('td');
@@ -167,4 +190,23 @@ function renderTable(expansion, cardOrder) {
 		etable.appendChild(row);
 	}
 	return etable;
+}
+
+function sortTable(ev) {
+	let tar = ev.target;
+	let sortYear = tar.textContent;
+	let desc = false;
+	if (sortYear.includes("▲")) {
+		desc = true;
+		sortYear = sortYear.slice(0, -1);
+	} else if (sortYear.includes("▼")) {
+		sortYear = sortYear.slice(0, -1);
+	}
+	if (sortYear == '+/-') {
+		sortYear = tar.previousSibling.textContent.replace(/▲|▼/, '') + ' diff';
+	}
+	let expansionTable = tar.parentElement.parentElement.parentElement;
+	let expansion = expansionTable.id.split('-').slice(0,-1).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+	expansionTable.innerHTML = '';
+	expansionTable.appendChild(renderTable(expansion, sortYear, desc));
 }
