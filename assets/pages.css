@@ -1,0 +1,32 @@
+#wrapper {
+	max-width: 1200px;
+	margin: auto;
+}
+/*
+.thundertable {
+	width: 100%;
+}
+*/
+
+.thundertable th {
+	border-bottom: 1px solid #000000;
+}
+
+.thundertable tr:nth-child(n+2) {
+	border-top: 1px solid #00000030;
+}
+
+.thundertable .card-cell {
+	min-width: 200px;
+}
+
+.thundertable .rank-cell {
+	min-width: 70px;
+	text-align: center;
+	border-left: 1px solid #000000;
+}
+
+.thundertable .diff-cell {
+	min-width: 40px;
+	text-align: center;
+}

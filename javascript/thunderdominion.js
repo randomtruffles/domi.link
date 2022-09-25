@@ -83,7 +83,7 @@ function loadPage() {
 			}
 		} else {
 			for (let i = 0; i < ranks[expansion]['year'].length-1; i++) {
-				if (ranks[expansion]['year'][i] == '2E hot takes') {
+				if (ranks[expansion]['year'][i] == '2E Hot') {
 					for (card of expCards) {
 						ranks[expansion][card].diff.push(null);
 					}
@@ -103,7 +103,7 @@ function loadPage() {
 		
 		let ediv = document.createElement('div');
 		ediv.appendChild(document.createElement('hr'));
-		let ename = document.createElement('h4');
+		let ename = document.createElement('h3');
 		ename.appendChild(document.createTextNode(expansion));
 		ediv.appendChild(ename);
 		wrapper.appendChild(ediv);
@@ -124,16 +124,19 @@ function renderTable(expansion, sortBy, desc) {
 	let etable = document.createElement('tbody');
 	let ethead = document.createElement('tr');
 	let descriptor = document.createElement('th');
+	descriptor.classList.add('card-cell');
 	descriptor.appendChild(document.createTextNode(expansion == "Dark Ages" ? "Card" : (expansion.includes(" ") ? (expansion == "Allies Allies" ? "Ally" : expansion.split(" ")[1].slice(0, -1)) : "Card")));
 	ethead.appendChild(descriptor);
 	for (y of ranks[expansion].year.slice().reverse()) {
 		let year = document.createElement('th');
 		year.onclick = sortTable;
+		year.classList.add('rank-cell');
 		year.appendChild(document.createTextNode(y + (y == sortBy ? (desc ? '▼' : '▲') : '')));
 		ethead.appendChild(year);
-		if (!y.includes('takes') && y != '2018' && !(expansion == "Menagerie Ways" && y == 2020)) {
+		if (!y.includes('Hot') && y != '2018' && !(expansion == "Menagerie Ways" && y == 2020)) {
 			let pm = document.createElement('th');
 			pm.onclick = sortTable;
+			pm.classList.add('diff-cell');
 			pm.appendChild(document.createTextNode('+/-' + (y == (sortBy.includes(' diff') && sortBy.split(' ')[0]) ? (desc ? '▼' : '▲') : '')));
 			ethead.appendChild(pm);
 		}
@@ -174,15 +177,18 @@ function renderTable(expansion, sortBy, desc) {
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
 		let name = document.createElement('td');
+		name.classList.add('card-cell');
 		name.appendChild(document.createTextNode((expansion == "Menagerie Ways" ? "Way of the " : "") + card));
 		row.appendChild(name);
 		for (let i = ranks[expansion].year.length-1; i >=0; i--) {
 			let r = document.createElement('td');
+			r.classList.add('rank-cell');
 			r.appendChild(document.createTextNode(ranks[expansion][card].rank[i] == -1 ? "" : ranks[expansion][card].rank[i]));
 			row.appendChild(r);
-			if (!ranks[expansion].year[i].includes('takes') && ranks[expansion].year[i] != '2018' && !(expansion == "Menagerie Ways" && ranks[expansion].year[i] == 2020)) {
+			if (!ranks[expansion].year[i].includes('Hot') && ranks[expansion].year[i] != '2018' && !(expansion == "Menagerie Ways" && ranks[expansion].year[i] == 2020)) {
 				let d = document.createElement('td');
 				let diff = ranks[expansion][card].diff[i]
+				d.classList.add('diff-cell');
 				d.appendChild(document.createTextNode(diff === null ? "" : ((diff > 0 ? '+' : '') + diff)));
 				row.appendChild(d);
 			}
