@@ -274,7 +274,8 @@ function renderChart(expansion) {
 					'stroke': '#000000'
 				},
 				'selection': {
-					'hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'}
+					'hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
+					'clicked': {'type': 'single', 'fields': ['card'], 'on': 'click', 'empty': 'none', 'init': (expansion in charts && charts[expansion]['highlight'].length) ? {} : null}
 				},
 				'encoding': {
 					'x': {
@@ -303,7 +304,7 @@ function renderChart(expansion) {
 						},
 						'legend': null
 					},
-					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.3},
+					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
 					'tooltip': {'field': 'card'}
 				}
 			},
@@ -326,7 +327,7 @@ function renderChart(expansion) {
 						},
 						'legend': null
 					},
-					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.3},
+					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
 					'tooltip': {'field': 'card'}
 				}
 			},
@@ -346,7 +347,8 @@ function renderChart(expansion) {
 						'scale': {'domain': years}
 					},
 					'y': {'field': 'rank', 'type': 'quantitative'},
-				'text': {'field': 'card'}
+					'text': {'field': 'card'},
+					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2}
 				}
 			},
 			{
@@ -365,7 +367,8 @@ function renderChart(expansion) {
 						'scale': {'domain': years}
 					},
 					'y': {'field': 'rank', 'type': 'quantitative'},
-					'text': {'field': 'card'}
+					'text': {'field': 'card'},
+					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2}
 				}
 			}
 		],
@@ -373,12 +376,47 @@ function renderChart(expansion) {
 	}
 	
 	if (expansion == 'Cornucopia + Guilds') {
-		spec.layer[3].transform.push({'filter': `indexof(${JSON.stringify(mixed.Cornucopia)}, datum.card) >= 0`});
+		spec.layer[3].transform.push({'filter': `indexof(${JSON.stringify(mixed.Cornucopia)}, datum.card) != -1`});
 		spec.layer[3].mark.dy = -6;
 		spec.layer.push(JSON.parse(JSON.stringify(spec.layer[3])));
-		spec.layer[4].transform[1] = ({'filter': `indexof(${JSON.stringify(mixed.Cornucopia)}, datum.card) == -1`});
+		spec.layer[4].transform[1] = ({'filter': `indexof(${JSON.stringify(mixed.Guilds)}, datum.card) != -1`});
 		spec.layer[4].mark.dy = 6;
 	}
 	
-	vegaEmbed(`#${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`, spec, {"actions": false}).then(function(res) {charts[expansion] = res.view});
+	if (expansion in charts && charts[expansion]['highlight'].length) {
+		spec.layer[0].selection.hovered.empty = 'none';
+		emphLayers = JSON.parse(JSON.stringify(spec.layer));
+		delete emphLayers[0].selection;
+		for (lay of emphLayers) {
+			if ('transform' in lay) {
+				lay.transform.push({'filter': `indexof(${JSON.stringify(charts[expansion]['highlight'])}, datum.card) != -1`});
+			} else {
+				lay.transform = [{'filter': `indexof(${JSON.stringify(charts[expansion]['highlight'])}, datum.card) != -1`}];
+			}
+			delete lay.encoding.opacity;
+		}
+		spec.layer = spec.layer.concat(emphLayers);
+	}
+	
+	vegaEmbed(`#${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`, spec, {"actions": false})
+		.then(function(res) {
+			charts[expansion] = {'chart': res.view, 'highlight': expansion in charts ? charts[expansion]['highlight'] : []};
+			charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
+				if (value.length) {
+					let clickedCard = value[0].values[0];
+					let highlightIndex = charts[expansion]['highlight'].indexOf(clickedCard);
+					if (highlightIndex == -1) {
+						charts[expansion]['highlight'].push(clickedCard);
+					} else {
+						charts[expansion]['highlight'].splice(highlightIndex, 1);
+					}
+					console.log(charts[expansion]['highlight']);
+					document.getElementById("vg-tooltip-element").classList.remove("visible", "light-theme");
+					renderChart(expansion);
+				} else if (charts[expansion]['highlight'].length) {
+					charts[expansion]['highlight'] = [];
+					renderChart(expansion);
+				}
+			});
+		});
 }
