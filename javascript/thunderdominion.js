@@ -8,17 +8,30 @@ var dispOrder = ['Base', 'Intrigue', 'Seaside', 'Alchemy', 'Prosperity', 'Cornuc
 var mixed = {'Cornucopia': ['Tournament','Remake','Hunting Party','Menagerie','Horn of Plenty','Hamlet','Farming Village','Young Witch','Jester','Fairgrounds','Horse Traders','Fortune Teller','Harvest'], 'Guilds': ['Butcher','Stonemason','Herald','Plaza','Advisor','Doctor','Journeyman','Merchant Guild','Soothsayer','Baker','Candlestick Maker','Masterpiece','Taxman']};
 
 var notes = {
-	'Adventures Events': "In 2018 and 2019, Adventures and Empires events were ranked together. The rankings displayed here for those years reflect the ranking within expansion.",
-	'Empires Events': "In 2018 and 2019, Adventures and Empires events were ranked together. The rankings displayed here for those years reflect the ranking within expansion.",
-	'Cornucopia + Guilds': "In 2018 and 2019, Cornucopia and Guilds were ranked separately. The rankings displayed here for those years and reflect those rankings and the differences for 2020 reflect the in-expansion differences."
+	'Adventures Events': ["In 2018 and 2019, Adventures and Empires events were ranked together. The rankings displayed here for those years reflect the ranking within expansion."],
+	'Empires Events': [
+		"In 2018 and 2019, Adventures and Empires events were ranked together. The rankings displayed here for those years reflect the ranking within expansion.",
+		"The Promo Event Summon is included in the Empires Events."
+	],
+	'Cornucopia + Guilds': ["In 2018 and 2019, Cornucopia and Guilds were ranked separately. The rankings displayed here for those years and reflect those rankings and the differences for 2020 reflect the in-expansion differences."]
 }
 
 var wrapper = document.getElementById('wrapper');
+var widthcheck = null;
 var charts = {};
 
 loadPage();
 
+window.onresize = function() {
+	for (expansion in charts) {
+		charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
+		charts[expansion].chart.runAsync();
+	}
+}
+
 function loadPage() {
+	widthcheck = document.createElement('div');
+	wrapper.appendChild(widthcheck);
 	for (let expansion of dispOrder) {
 		//calculate expanded ranks
 		let expCards = Object.keys(ranks[expansion]).filter(x => x !== 'year');
@@ -110,9 +123,11 @@ function loadPage() {
 		ediv.appendChild(ename);
 		wrapper.appendChild(ediv);
 		if (expansion in notes) {
-			let enote = document.createElement('p');
-			enote.appendChild(document.createTextNode(notes[expansion]));
-			ediv.appendChild(enote);
+			for (note of notes[expansion]) {
+				let enote = document.createElement('p');
+				enote.appendChild(document.createTextNode(note));
+				ediv.appendChild(enote);
+			}
 		}
 		
 		//table
@@ -132,6 +147,7 @@ function loadPage() {
 		chart.id = expansion.toLowerCase().replace(/ /g, '-').replace('+', '') + "-chart";
 		chartdiv.appendChild(chart);
 		ediv.appendChild(chartdiv);
+		charts[expansion] = {'highlight': []};
 		renderChart(expansion);
 	}
 }
@@ -263,11 +279,14 @@ function renderChart(expansion) {
 	}
 	
 	var spec = {
-		'height': 500,
-		'width': 700,
+		'height': maxRank * 20,
+		'width': widthcheck.clientWidth - ('offset' in charts[expansion] ? charts[expansion].offset : 0),
 		'data': {'values': chartData},
 		'layer': [
-			{
+			{	
+				'transform': [
+					{'calculate': `indexof(${JSON.stringify(years)}, datum.year)`, 'as': 'order'}
+				],
 				'mark': {
 					'type': 'line',
 					'strokeWidth': 2,
@@ -305,7 +324,7 @@ function renderChart(expansion) {
 						'legend': null
 					},
 					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
-					'tooltip': {'field': 'card'}
+					'order': {'field': 'order', 'type': 'quantitative'}
 				}
 			},
 			{
@@ -328,13 +347,17 @@ function renderChart(expansion) {
 						'legend': null
 					},
 					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
-					'tooltip': {'field': 'card'}
+					'tooltip': (widthcheck.clientWidth < 540) ? null : {'field': 'card'}
 				}
 			},
 			{
 				'transform': [
 					{'filter': `datum.year == '${years[years.length-1]}'`}
 				],
+				'selection': {
+					'rname_hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
+					'rname_clicked': {'type': 'single', 'fields': ['card'], 'on': 'click', 'empty': 'none', 'init': (expansion in charts && charts[expansion]['highlight'].length) ? {} : null}
+				},
 				'mark': {
 					'type': 'text',
 					'align': 'left',
@@ -355,6 +378,10 @@ function renderChart(expansion) {
 				'transform': [
 					{'filter': `datum.year == '${years[0]}'`}
 				],
+				'selection': {
+					'lname_hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
+					'lname_clicked': {'type': 'single', 'fields': ['card'], 'on': 'click', 'empty': 'none', 'init': (expansion in charts && charts[expansion]['highlight'].length) ? {} : null}
+				},
 				'mark': {
 					'type': 'text',
 					'align': 'right',
@@ -375,23 +402,35 @@ function renderChart(expansion) {
 		'config': {'style': {'cell': {'stroke': 'transparent'}}}
 	}
 	
-	if (expansion == 'Cornucopia + Guilds') {
+	if (widthcheck.clientWidth < 540) {
+		spec.layer.pop(3);
+	} else if (expansion == 'Cornucopia + Guilds') {
 		spec.layer[3].transform.push({'filter': `indexof(${JSON.stringify(mixed.Cornucopia)}, datum.card) != -1`});
+		spec.layer[3].selection = {
+			'lnamecorn_hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
+			'lnamecorn_clicked': {'type': 'single', 'fields': ['card'], 'on': 'click', 'empty': 'none', 'init': (expansion in charts && charts[expansion]['highlight'].length) ? {} : null}
+		};
 		spec.layer[3].mark.dy = -6;
 		spec.layer.push(JSON.parse(JSON.stringify(spec.layer[3])));
 		spec.layer[4].transform[1] = ({'filter': `indexof(${JSON.stringify(mixed.Guilds)}, datum.card) != -1`});
 		spec.layer[4].mark.dy = 6;
+		spec.layer[4].selection = {
+			'lnameguilds_hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
+			'lnameguilds_clicked': {'type': 'single', 'fields': ['card'], 'on': 'click', 'empty': 'none', 'init': (expansion in charts && charts[expansion]['highlight'].length) ? {} : null}
+		};
 	}
 	
 	if (expansion in charts && charts[expansion]['highlight'].length) {
 		spec.layer[0].selection.hovered.empty = 'none';
 		emphLayers = JSON.parse(JSON.stringify(spec.layer));
-		delete emphLayers[0].selection;
 		for (lay of emphLayers) {
 			if ('transform' in lay) {
 				lay.transform.push({'filter': `indexof(${JSON.stringify(charts[expansion]['highlight'])}, datum.card) != -1`});
 			} else {
 				lay.transform = [{'filter': `indexof(${JSON.stringify(charts[expansion]['highlight'])}, datum.card) != -1`}];
+			}
+			if ('selection' in lay) {
+				delete lay.selection;
 			}
 			delete lay.encoding.opacity;
 		}
@@ -400,23 +439,28 @@ function renderChart(expansion) {
 	
 	vegaEmbed(`#${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`, spec, {"actions": false})
 		.then(function(res) {
-			charts[expansion] = {'chart': res.view, 'highlight': expansion in charts ? charts[expansion]['highlight'] : []};
-			charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
-				if (value.length) {
-					let clickedCard = value[0].values[0];
-					let highlightIndex = charts[expansion]['highlight'].indexOf(clickedCard);
-					if (highlightIndex == -1) {
-						charts[expansion]['highlight'].push(clickedCard);
-					} else {
-						charts[expansion]['highlight'].splice(highlightIndex, 1);
+			charts[expansion].chart = res.view;
+			if (!('offset' in charts[expansion])) {
+				charts[expansion].offset = document.getElementById(`${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`).clientWidth - widthcheck.clientWidth;
+				renderChart(expansion);
+			} else {
+				charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
+					if (value.length) {
+						let clickedCard = value[0].values[0];
+						let highlightIndex = charts[expansion]['highlight'].indexOf(clickedCard);
+						if (highlightIndex == -1) {
+							charts[expansion]['highlight'].push(clickedCard);
+						} else {
+							charts[expansion]['highlight'].splice(highlightIndex, 1);
+						}
+						let vegatip = document.getElementById("vg-tooltip-element")
+						if (vegatip) {vegatip.classList.remove("visible", "light-theme");}
+						renderChart(expansion);
+					} else if (charts[expansion]['highlight'].length) {
+						charts[expansion]['highlight'] = [];
+						renderChart(expansion);
 					}
-					console.log(charts[expansion]['highlight']);
-					document.getElementById("vg-tooltip-element").classList.remove("visible", "light-theme");
-					renderChart(expansion);
-				} else if (charts[expansion]['highlight'].length) {
-					charts[expansion]['highlight'] = [];
-					renderChart(expansion);
-				}
-			});
+				});
+			}
 		});
 }
