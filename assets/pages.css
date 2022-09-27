@@ -3,8 +3,20 @@
 	margin: auto;
 }
 
+#thunderheader {
+	position: sticky;
+	top: 0;
+	background-color: #F1EED9;
+	z-index: 100;
+}
+
 .thundertable th {
 	border-bottom: 1px solid #000000;
+}
+
+.thundertable tr:hover td {
+	font-weight: bold;
+	background-color: #DDD6A2
 }
 
 .thundertable tr:nth-child(n+3) {

@@ -16,8 +16,10 @@ var notes = {
 	'Cornucopia + Guilds': ["In 2018 and 2019, Cornucopia and Guilds were ranked separately. The rankings displayed here for those years and reflect those rankings and the differences for 2020 reflect the in-expansion differences."]
 }
 
-var wrapper = document.getElementById('wrapper');
-var widthcheck = null;
+var removed = {};
+
+var wrapper = document.getElementById('content-wrapper');
+var widthcheck = document.getElementById('widthcheck');
 var charts = {};
 
 loadPage();
@@ -30,8 +32,16 @@ window.onresize = function() {
 }
 
 function loadPage() {
-	widthcheck = document.createElement('div');
-	wrapper.appendChild(widthcheck);
+	document.getElementById('tables-toggle').onclick = function() {
+		[...document.getElementsByClassName('thunderchart-wrapper')].forEach(el => el.style.display = 'none');
+		[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.style.display = 'block');
+	};
+	
+	document.getElementById('charts-toggle').onclick = function() {
+		[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.style.display = 'none');
+		[...document.getElementsByClassName('thunderchart-wrapper')].forEach(el => el.style.display = 'block');
+	};
+	
 	for (let expansion of dispOrder) {
 		//calculate expanded ranks
 		let expCards = Object.keys(ranks[expansion]).filter(x => x !== 'year');
@@ -117,9 +127,26 @@ function loadPage() {
 		
 		//header
 		let ediv = document.createElement('div');
+		ediv.id = expansion.replace(/ /g, '-');
 		ediv.appendChild(document.createElement('hr'));
 		let ename = document.createElement('h3');
-		ename.appendChild(document.createTextNode(expansion));
+		let namespan = document.createElement('span');
+		namespan.appendChild(document.createTextNode(expansion));
+		ename.appendChild(namespan);
+		let index2e = ranks[expansion].year.indexOf("2E Hot");
+		if (index2e != -1) {
+			removed[expansion] = [];
+			for (card of expCards) {
+				if (ranks[expansion][card].rank[index2e] == -1) {
+					removed[expansion].push(card);
+				}
+			}
+			let check2e = document.createElement('input');
+			check2e.type = 'checkbox';
+			check2e.classList.add('thunderselect', 'toggle2e');
+			check2e.onclick = toggle2e;
+			ename.append(check2e);
+		}
 		ediv.appendChild(ename);
 		wrapper.appendChild(ediv);
 		if (expansion in notes) {
@@ -147,8 +174,8 @@ function loadPage() {
 		chart.id = expansion.toLowerCase().replace(/ /g, '-').replace('+', '') + "-chart";
 		chartdiv.appendChild(chart);
 		ediv.appendChild(chartdiv);
-		charts[expansion] = {'highlight': []};
-		renderChart(expansion);
+		charts[expansion] = {'highlight': [], 'height': document.getElementById(expansion.toLowerCase().replace(/ /g, '-') + "-table").clientHeight - 49};
+		renderChart(expansion, chartdiv);
 	}
 }
 
@@ -206,8 +233,18 @@ function renderTable(expansion, sortBy, desc) {
 			}
 		});
 	}
+	let show1e = false;
+	if (expansion in removed) {
+		show1e = document.getElementById(expansion.replace(/ /g, '-')).childNodes[1].childNodes[1].checked;
+	}
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
+		if (expansion in removed && removed[expansion].includes(card)) {
+			row.classList.add(expansion.replace(/ /g, '-').toLowerCase() + '-removed');
+			if (!show1e) {
+				row.style.display = 'none';
+			}
+		}
 		let name = document.createElement('td');
 		name.classList.add('card-cell');
 		name.appendChild(document.createTextNode((expansion == "Menagerie Ways" ? "Way of the " : "") + card));
@@ -249,7 +286,17 @@ function sortTable(ev) {
 	expansionTable.appendChild(renderTable(expansion, sortYear, desc));
 }
 
-function renderChart(expansion) {
+function toggle2e(ev) {
+	let expansion = ev.target.parentElement.firstChild.textContent;
+	let rows1e = [...document.getElementsByClassName(expansion.replace(/ /g, '-').toLowerCase() + '-removed')];
+	if (ev.target.checked) {
+		rows1e.forEach(el => el.style.display = '');
+	} else {
+		rows1e.forEach(el => el.style.display = 'none');
+	}
+}
+
+function renderChart(expansion, initial = null) {
 	var chartData = [];
 	var years = ranks[expansion]['year'].slice().reverse();
 	var maxRank = 0;
@@ -279,7 +326,7 @@ function renderChart(expansion) {
 	}
 	
 	var spec = {
-		'height': maxRank * 20,
+		'height': charts[expansion].height,
 		'width': widthcheck.clientWidth - ('offset' in charts[expansion] ? charts[expansion].offset : 0),
 		'data': {'values': chartData},
 		'layer': [
@@ -329,7 +376,8 @@ function renderChart(expansion) {
 			},
 			{
 				'mark': {
-					'type': 'point'
+					'type': 'point',
+					'filled': true
 				},
 				'encoding': {
 					'x': {
@@ -440,8 +488,9 @@ function renderChart(expansion) {
 	vegaEmbed(`#${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`, spec, {"actions": false})
 		.then(function(res) {
 			charts[expansion].chart = res.view;
-			if (!('offset' in charts[expansion])) {
+			if (initial !== null) {
 				charts[expansion].offset = document.getElementById(`${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`).clientWidth - widthcheck.clientWidth;
+				initial.style.display = 'none';
 				renderChart(expansion);
 			} else {
 				charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
