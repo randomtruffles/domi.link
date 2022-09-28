@@ -8,6 +8,40 @@
 	top: 0;
 	background-color: #F1EED9;
 	z-index: 100;
+	padding-top: 0.83em;
+	border-bottom: 1px solid #000000
+}
+
+#thunderheader h2 {
+	margin: 0;
+}
+
+#thundersidenav {
+	position: fixed;
+	height: 100%;
+	background-color: #F1EED9;
+	z-index: 99;
+	padding: 5px 10px;
+	border-right: 1px solid #000000;
+}
+
+#thundersidenav p {
+	margin: 0;
+}
+
+#thundersidenav p:hover {
+	font-weight: bold;
+	background-color: #DDD6A2;
+	cursor: pointer;
+}
+
+#thundercontent {
+	padding-left: 10px;
+}
+
+#thundercontent > div:nth-child(n+3) {
+	border-top: 1px solid #00000030;
+	margin-top: 10px;
 }
 
 .thundertable th {
@@ -40,4 +74,16 @@
 .thundertable .diff-cell {
 	min-width: 40px;
 	text-align: center;
+}
+
+.thunderselect {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	width: 20px;
+	height: 34px;
+	border: 2px solid #d3d3d3;
+	background-color: #ffffff;
+	margin: 0px 4px !important;
 }

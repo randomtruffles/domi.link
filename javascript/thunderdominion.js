@@ -18,7 +18,7 @@ var notes = {
 
 var removed = {};
 
-var wrapper = document.getElementById('content-wrapper');
+var wrapper = document.getElementById('thundercontent');
 var widthcheck = document.getElementById('widthcheck');
 var charts = {};
 
@@ -41,6 +41,9 @@ function loadPage() {
 		[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.style.display = 'none');
 		[...document.getElementsByClassName('thunderchart-wrapper')].forEach(el => el.style.display = 'block');
 	};
+	
+	let navmenu = document.getElementById('thundersidenav');
+	navmenu.style.top = document.getElementById('thunderheader').clientHeight + 'px';
 	
 	for (let expansion of dispOrder) {
 		//calculate expanded ranks
@@ -128,7 +131,6 @@ function loadPage() {
 		//header
 		let ediv = document.createElement('div');
 		ediv.id = expansion.replace(/ /g, '-');
-		ediv.appendChild(document.createElement('hr'));
 		let ename = document.createElement('h3');
 		let namespan = document.createElement('span');
 		namespan.appendChild(document.createTextNode(expansion));
@@ -157,6 +159,15 @@ function loadPage() {
 			}
 		}
 		
+		//add to navigation
+		let scrollLink = document.createElement('p');
+		scrollLink.onclick = function() {
+			viewTop = document.getElementById(expansion.replace(/ /g, '-')).getBoundingClientRect().top;
+			window.scrollTo(0, viewTop + window.scrollY - document.getElementById('thunderheader').clientHeight);
+		}
+		scrollLink.appendChild(document.createTextNode(expansion));
+		navmenu.appendChild(scrollLink);
+		
 		//table
 		let tabdiv = document.createElement('div');
 		tabdiv.classList.add('thundertable-wrapper');
@@ -177,6 +188,9 @@ function loadPage() {
 		charts[expansion] = {'highlight': [], 'height': document.getElementById(expansion.toLowerCase().replace(/ /g, '-') + "-table").clientHeight - 49};
 		renderChart(expansion, chartdiv);
 	}
+	
+	//adjust content area
+	wrapper.style.marginLeft = navmenu.clientWidth + 'px';
 }
 
 function renderTable(expansion, sortBy, desc) {
@@ -235,7 +249,7 @@ function renderTable(expansion, sortBy, desc) {
 	}
 	let show1e = false;
 	if (expansion in removed) {
-		show1e = document.getElementById(expansion.replace(/ /g, '-')).childNodes[1].childNodes[1].checked;
+		show1e = document.getElementById(expansion.replace(/ /g, '-')).childNodes[0].childNodes[1].checked;
 	}
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
