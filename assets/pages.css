@@ -8,7 +8,7 @@
 	top: 0;
 	background-color: #F1EED9;
 	z-index: 100;
-	padding-top: 0.83em;
+	padding: 0.83em 0;
 	border-bottom: 1px solid #000000
 }
 
@@ -36,7 +36,7 @@
 }
 
 #thundercontent {
-	padding-left: 10px;
+	padding: 0px 10px;
 }
 
 #thundercontent > div:nth-child(n+3) {
@@ -50,7 +50,7 @@
 
 .thundertable tr:hover td {
 	font-weight: bold;
-	background-color: #DDD6A2
+	background-color: #DDD6A2;
 }
 
 .thundertable tr:nth-child(n+3) {
@@ -80,10 +80,73 @@
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-
-	width: 20px;
-	height: 34px;
-	border: 2px solid #d3d3d3;
-	background-color: #ffffff;
-	margin: 0px 4px !important;
+	
+	width: 100px;
+	height: 30px;
+	border: 2px solid #DDD6A2;
+	background-color: #FFFFFF;
+	margin: 0px 10px;
 }
+
+.thunderselect.toggle2e {
+	width: 150px;
+	height: 100%;
+	font-weight: normal;
+}
+
+.thunderselect:before {
+	color: #706729;
+	font-size: 18px;
+	position: relative;
+	top: 2px;
+}
+
+.thunderselect:hover {
+	border-color: #706729;
+	background-color: #DDD6A2;
+}
+
+.thunderselect:hover:before {
+	font-weight: bold;
+}
+
+.thunderselect:checked {
+	border-color: #706729;
+	background-color: #706729;
+}
+
+.thunderselect:checked:before {
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.thunderselect:checked:hover:before {
+    color: #DDD6A2;
+	font-weight: normal;
+}
+
+.thunderselect#tables-toggle:before {
+	content: "Tables";
+	left: 23px;
+}
+
+.thunderselect#charts-toggle:before {
+	content: "Charts";
+	left: 22px;
+}
+
+
+.thunderselect.toggle2e:before {
+	content: "Show 1E Cards";
+	font-size: inherit;
+	top: 1px;
+	left: 12px;
+}
+
+.thunderselect.toggle2e:checked:before {
+	content: "Hide 1E Cards";
+	left: 18px;
+}
+
+	

@@ -25,21 +25,30 @@ var charts = {};
 loadPage();
 
 window.onresize = function() {
-	for (expansion in charts) {
-		charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
-		charts[expansion].chart.runAsync();
+	if ('offset' in charts['Base']) {
+		for (expansion in charts) {
+			charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
+			charts[expansion].chart.runAsync();
+		}
 	}
 }
 
 function loadPage() {
 	document.getElementById('tables-toggle').onclick = function() {
 		[...document.getElementsByClassName('thunderchart-wrapper')].forEach(el => el.style.display = 'none');
+		[...document.getElementsByClassName('toggle2e')].forEach(el => el.style.display = 'inline-block');
 		[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.style.display = 'block');
 	};
 	
 	document.getElementById('charts-toggle').onclick = function() {
 		[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.style.display = 'none');
+		[...document.getElementsByClassName('toggle2e')].forEach(el => el.style.display = 'none');
 		[...document.getElementsByClassName('thunderchart-wrapper')].forEach(el => el.style.display = 'block');
+		if (!('offset' in charts['Base'])) {
+			for (expansion in charts) {
+				renderChart(expansion);
+			}
+		}
 	};
 	
 	let navmenu = document.getElementById('thundersidenav');
@@ -174,19 +183,20 @@ function loadPage() {
 		let tab = document.createElement('table');
 		tab.id = expansion.toLowerCase().replace(/ /g, '-') + "-table";
 		tab.classList.add('thundertable');
-		tab.appendChild(renderTable(expansion, ranks[expansion]['year'][0], false));
 		tabdiv.appendChild(tab);
 		ediv.appendChild(tabdiv);
+		tab.appendChild(renderTable(expansion, ranks[expansion]['year'][0], false));
 		
 		//chart
 		let chartdiv = document.createElement('div');
 		chartdiv.classList.add('thunderchart-wrapper');
+		chartdiv.style.display = 'none';
 		let chart = document.createElement('div');
 		chart.id = expansion.toLowerCase().replace(/ /g, '-').replace('+', '') + "-chart";
 		chartdiv.appendChild(chart);
 		ediv.appendChild(chartdiv);
 		charts[expansion] = {'highlight': [], 'height': document.getElementById(expansion.toLowerCase().replace(/ /g, '-') + "-table").clientHeight - 49};
-		renderChart(expansion, chartdiv);
+		//renderChart(expansion);
 	}
 	
 	//adjust content area
@@ -249,7 +259,7 @@ function renderTable(expansion, sortBy, desc) {
 	}
 	let show1e = false;
 	if (expansion in removed) {
-		show1e = document.getElementById(expansion.replace(/ /g, '-')).childNodes[0].childNodes[1].checked;
+		show1e = document.getElementById(expansion.replace(/ /g, '-').toLowerCase() + '-table').parentElement.childNodes[0].checked;
 	}
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
@@ -301,7 +311,7 @@ function sortTable(ev) {
 }
 
 function toggle2e(ev) {
-	let expansion = ev.target.parentElement.firstChild.textContent;
+	let expansion = ev.target.parentElement.parentElement.firstChild.textContent;
 	let rows1e = [...document.getElementsByClassName(expansion.replace(/ /g, '-').toLowerCase() + '-removed')];
 	if (ev.target.checked) {
 		rows1e.forEach(el => el.style.display = '');
@@ -310,7 +320,7 @@ function toggle2e(ev) {
 	}
 }
 
-function renderChart(expansion, initial = null) {
+function renderChart(expansion) {
 	var chartData = [];
 	var years = ranks[expansion]['year'].slice().reverse();
 	var maxRank = 0;
@@ -502,28 +512,27 @@ function renderChart(expansion, initial = null) {
 	vegaEmbed(`#${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`, spec, {"actions": false})
 		.then(function(res) {
 			charts[expansion].chart = res.view;
-			if (initial !== null) {
-				charts[expansion].offset = document.getElementById(`${expansion.toLowerCase().replace(/ /g, '-').replace('+', '')}-chart`).clientWidth - widthcheck.clientWidth;
-				initial.style.display = 'none';
-				renderChart(expansion);
-			} else {
-				charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
-					if (value.length) {
-						let clickedCard = value[0].values[0];
-						let highlightIndex = charts[expansion]['highlight'].indexOf(clickedCard);
-						if (highlightIndex == -1) {
-							charts[expansion]['highlight'].push(clickedCard);
-						} else {
-							charts[expansion]['highlight'].splice(highlightIndex, 1);
-						}
-						let vegatip = document.getElementById("vg-tooltip-element")
-						if (vegatip) {vegatip.classList.remove("visible", "light-theme");}
-						renderChart(expansion);
-					} else if (charts[expansion]['highlight'].length) {
-						charts[expansion]['highlight'] = [];
-						renderChart(expansion);
-					}
-				});
+			if (!('offset' in charts[expansion])) {
+				charts[expansion].offset = document.getElementById(expansion.toLowerCase().replace(/ /g, '-').replace('+', '') + "-chart").clientWidth - widthcheck.clientWidth;
+				charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
+				charts[expansion].chart.runAsync();
 			}
+			charts[expansion]['chart'].addDataListener('clicked_store', function (name, value) {
+				if (value.length) {
+					let clickedCard = value[0].values[0];
+					let highlightIndex = charts[expansion]['highlight'].indexOf(clickedCard);
+					if (highlightIndex == -1) {
+						charts[expansion]['highlight'].push(clickedCard);
+					} else {
+						charts[expansion]['highlight'].splice(highlightIndex, 1);
+					}
+					let vegatip = document.getElementById("vg-tooltip-element")
+					if (vegatip) {vegatip.classList.remove("visible", "light-theme");}
+					renderChart(expansion);
+				} else if (charts[expansion]['highlight'].length) {
+					charts[expansion]['highlight'] = [];
+					renderChart(expansion);
+				}
+			});
 		});
 }
