@@ -401,7 +401,8 @@ function renderChart(expansion) {
 			{
 				'mark': {
 					'type': 'point',
-					'filled': true
+					'filled': true,
+					'color': '#000000'
 				},
 				'encoding': {
 					'x': {
@@ -410,14 +411,6 @@ function renderChart(expansion) {
 						'scale': {'domain': years}
 					},
 					'y': {'field': 'rank', 'type': 'quantitative'},
-					'color': {
-						'field': 'card',
-						'scale': {
-							'domain': expCards,
-							'range': Array.from({length: expCards.length}, () => '#000000')
-						},
-						'legend': null
-					},
 					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
 					'tooltip': (widthcheck.clientWidth < 540) ? null : {'field': 'card'}
 				}
@@ -474,6 +467,25 @@ function renderChart(expansion) {
 		'config': {'style': {'cell': {'stroke': 'transparent'}}}
 	}
 	
+	if (expansion in removed) {
+		let removedCalc = {'calculate': `if(indexof(${JSON.stringify(removed[expansion])}, datum.card) != -1,'removed','not')`, 'as': 'removed'};
+		let colorEncoding = {'field': 'removed', 'type': 'nominal', 'scale': {'domain': ['removed', 'not'], 'range': ['#8C8C8C', '#000000']}, 'legend': null};
+		for (lay of spec.layer) {
+			if ('transform' in lay) {
+				lay.transform.push(removedCalc);
+			} else {
+				lay.transform = [removedCalc];
+			}
+			if (lay.mark.type == 'line') {
+				lay.encoding.stroke = colorEncoding;
+			} else {
+				if ('color' in lay.mark) {
+				}
+				lay.encoding.color = colorEncoding;
+			}
+		}
+	}
+	
 	if (widthcheck.clientWidth < 540) {
 		spec.layer.pop(3);
 	} else if (expansion == 'Cornucopia + Guilds') {
@@ -505,6 +517,13 @@ function renderChart(expansion) {
 				delete lay.selection;
 			}
 			delete lay.encoding.opacity;
+			if (expansion in removed) {
+				if ('stroke' in lay.encoding) {
+					delete lay.encoding.stroke;
+				} else if ('color' in lay.encoding) {
+					delete lay.encoding.color;
+				}
+			}
 		}
 		spec.layer = spec.layer.concat(emphLayers);
 	}
