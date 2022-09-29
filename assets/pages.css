@@ -3,6 +3,10 @@
 	margin: auto;
 }
 
+#footer {
+	height: 10em;
+}
+
 #thunderheader {
 	position: -webkit-sticky;
 	position: sticky;
