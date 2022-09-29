@@ -23,15 +23,9 @@ var widthcheck = document.getElementById('widthcheck');
 var charts = {};
 
 loadPage();
+setTimeout(adjustPositions, 100); //hacky fix
 
-window.onresize = function() {
-	if ('offset' in charts['Base']) {
-		for (expansion in charts) {
-			charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
-			charts[expansion].chart.runAsync();
-		}
-	}
-}
+window.onresize = adjustPositions;
 
 function loadPage() {
 	document.getElementById('tables-toggle').onclick = function() {
@@ -225,6 +219,23 @@ function loadPage() {
 	[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.scrollTo(10000, 0));
 }
 
+function adjustPositions() {
+	let header = document.getElementById('thunderheader');
+	let navmenu = document.getElementById('thundersidenav');
+	let navtoggle = document.getElementById('navtoggle');
+	let copydata = document.getElementById('datacopy');
+	navmenu.style.top = header.clientHeight + 'px';
+	navtoggle.style.height = document.getElementById('thundertitle').clientHeight + 'px';
+	copydata.style.height = document.getElementById('thundertitle').clientHeight + 'px';
+	wrapper.style.marginLeft = navmenu.clientWidth + 'px';
+	if ('offset' in charts['Base']) {
+		for (expansion in charts) {
+			charts[expansion].chart.width(widthcheck.clientWidth - charts[expansion].offset);
+			charts[expansion].chart.runAsync();
+		}
+	}
+}
+
 function renderTable(expansion, sortBy, desc) {
 	let etable = document.createElement('tbody');
 	let ethead = document.createElement('tr');
@@ -246,6 +257,9 @@ function renderTable(expansion, sortBy, desc) {
 	}
 	descriptor.appendChild(document.createTextNode(descr));
 	ethead.appendChild(descriptor);
+	let fakeborder = document.createElement('th');
+	fakeborder.classList.add('fake-border');
+	ethead.appendChild(fakeborder);
 	for (y of ranks[expansion].year.slice().reverse()) {
 		let year = document.createElement('th');
 		year.onclick = sortTable;
@@ -309,6 +323,9 @@ function renderTable(expansion, sortBy, desc) {
 		name.classList.add('card-cell');
 		name.appendChild(document.createTextNode((expansion == "Menagerie Ways" ? "Way of the " : "") + card));
 		row.appendChild(name);
+		let fakeborder = document.createElement('td');
+		fakeborder.classList.add('fake-border');
+		row.appendChild(fakeborder);
 		for (let i = ranks[expansion].year.length-1; i >=0; i--) {
 			let r = document.createElement('td');
 			r.classList.add('rank-cell');
