@@ -51,8 +51,25 @@ function loadPage() {
 		}
 	};
 	
+	let header = document.getElementById('thunderheader');
 	let navmenu = document.getElementById('thundersidenav');
-	navmenu.style.top = document.getElementById('thunderheader').clientHeight + 'px';
+	let navtoggle = document.getElementById('navtoggle');
+	let copydata = document.getElementById('datacopy');
+	navmenu.style.top = header.clientHeight + 'px';
+	navtoggle.style.height = document.getElementById('thundertitle').clientHeight + 'px';
+	copydata.style.height = document.getElementById('thundertitle').clientHeight + 'px';
+	
+	navtoggle.onclick = function() {
+		if (navmenu.style.display == 'block') {
+			navmenu.style.display = 'none';
+		} else {
+			navmenu.style.display = 'block';
+		}
+	}
+	
+	copydata.onclick = function() {
+		navigator.clipboard.writeText(JSON.stringify(ranks));
+	}
 	
 	for (let expansion of dispOrder) {
 		//calculate expanded ranks
@@ -171,6 +188,10 @@ function loadPage() {
 		//add to navigation
 		let scrollLink = document.createElement('p');
 		scrollLink.onclick = function() {
+			if (navmenu.style.display == 'block') {
+				navmenu.style.display = 'none';
+				navtoggle.children[0].checked = false;
+			}
 			viewTop = document.getElementById(expansion.replace(/ /g, '-')).getBoundingClientRect().top;
 			window.scrollTo(0, viewTop + window.scrollY - document.getElementById('thunderheader').clientHeight);
 		}
@@ -201,6 +222,7 @@ function loadPage() {
 	
 	//adjust content area
 	wrapper.style.marginLeft = navmenu.clientWidth + 'px';
+	[...document.getElementsByClassName('thundertable-wrapper')].forEach(el => el.scrollTo(10000, 0));
 }
 
 function renderTable(expansion, sortBy, desc) {
@@ -208,7 +230,21 @@ function renderTable(expansion, sortBy, desc) {
 	let ethead = document.createElement('tr');
 	let descriptor = document.createElement('th');
 	descriptor.classList.add('card-cell');
-	descriptor.appendChild(document.createTextNode(expansion == "Dark Ages" ? "Card" : (expansion.includes(" ") ? (expansion == "Allies Allies" ? "Ally" : expansion.split(" ")[1].slice(0, -1)) : "Card")));
+	let descr = 'Card';
+	if (expansion.includes(" ")) {
+		let lastWord = expansion.split(" ")[1];
+		switch (lastWord) {
+			case 'Allies':
+				descr = 'Ally';
+				break;
+			case 'Events':
+			case 'Projects':
+			case 'Ways':
+				descr = lastWord.slice(0,-1);
+				break;
+		}
+	}
+	descriptor.appendChild(document.createTextNode(descr));
 	ethead.appendChild(descriptor);
 	for (y of ranks[expansion].year.slice().reverse()) {
 		let year = document.createElement('th');
@@ -412,7 +448,7 @@ function renderChart(expansion) {
 					},
 					'y': {'field': 'rank', 'type': 'quantitative'},
 					'opacity': {'condition': {'selection': 'hovered', 'value': 1}, 'value': 0.2},
-					'tooltip': (widthcheck.clientWidth < 540) ? null : {'field': 'card'}
+					'tooltip': {'field': 'card'}
 				}
 			},
 			{
