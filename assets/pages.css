@@ -165,20 +165,8 @@
 	border-bottom: 1px solid #000000;
 }
 
-.thundertable tr:hover td {
-	font-weight: bold;
-	background-color: #DDD6A2;
-}
-
 .thundertable tr:nth-child(n+3) {
 	border-top: 1px solid #C4C1B0;
-}
-
-.thundertable tr > *:first-child {
-	position: -webkit-sticky;
-	position: sticky;
-	left: 0;
-	background-color: #F1EED9;
 }
 
 .thundertable th:nth-child(n+2) {
@@ -186,19 +174,45 @@
 }
 
 .thundertable .card-cell {
+	position: -webkit-sticky;
+	position: sticky;
+	left: 0;
+	
+	background-color: #F1EED9;
 	min-width: 200px;
 	white-space: normal;
+}
+
+.thundertable .fake-border {
+	position: -webkit-sticky;
+	position: sticky;
+	left: 200px;
+	
+	min-width: 1px;
+	background-color: #000000;
+}
+
+.thundertable tr:nth-child(n+2) .fake-border {
+	border-top: 1px solid #000000;
 }
 
 .thundertable .rank-cell {
 	min-width: 70px;
 	text-align: center;
+}
+
+.thundertable .rank-cell:nth-child(n+4) {
 	border-left: 1px solid #000000;
 }
 
 .thundertable .diff-cell {
 	min-width: 40px;
 	text-align: center;
+}
+
+.thundertable tr:hover .card-cell, .thundertable tr:hover .rank-cell, .thundertable tr:hover .diff-cell {
+	font-weight: bold;
+	background-color: #DDD6A2;
 }
 
 @media screen and (max-width: 770px) {
@@ -208,6 +222,10 @@
 	
 	.thundertable .card-cell {
 		min-width: 100px;
+	}
+	
+	.thundertable .fake-border {
+		left: 100px;
 	}
 
 	.thundertable .rank-cell {
