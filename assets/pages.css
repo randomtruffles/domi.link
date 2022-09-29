@@ -4,6 +4,7 @@
 }
 
 #thunderheader {
+	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 	background-color: #F1EED9;
@@ -12,7 +13,53 @@
 	border-bottom: 1px solid #000000
 }
 
-#thunderheader h2 {
+#thunderheader > * {
+	text-align: center;
+}
+
+#thunderheader #thundertitle {
+	width: 100%;
+}
+
+#thunderheader #navtoggle {
+	display: none;
+}
+
+#thunderheader #datacopy {
+	width: 10%;
+	position: absolute;
+	top: 0.83em;
+	right: 0;
+}
+
+#thunderheader #datacopy button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	
+	width: 50%;
+	height: 100%;
+	background-color: #FFFFFF;
+	border: 2px solid #DDD6A2;
+}
+
+#thunderheader #datacopy button:hover {
+	border-color: #706729;
+	background-color: #DDD6A2;
+}
+
+#thunderheader #datacopy p {
+	margin: 0.4em 0;
+	font-family: sans-serif;
+	font-size: 0.9em;
+	color: #706729;
+}
+
+#thunderheader #datacopy button:hover p {
+	font-weight: bold;
+}
+
+#thundertitle h2 {
 	margin: 0;
 }
 
@@ -35,13 +82,80 @@
 	cursor: pointer;
 }
 
+@media screen and (max-width: 770px) {
+	#thunderheader > * {
+		float: left;
+	}
+	
+	#thunderheader:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+		
+	#thunderheader #navtoggle {
+		display: block;
+		width: 20%;
+	}
+	
+	#thunderheader #navtoggle input {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		
+		height: 3em;
+		width: 60%;
+		background-color: #FFFFFF;
+		border: 2px solid #DDD6A2;
+		position: relative;
+		top: 30%;
+	}
+	
+	#thunderheader #navtoggle input:checked {
+		background-color: #706729;
+		border: 2px solid #706729;
+	}
+	
+	#thunderheader #navtoggle input:before {
+		content: "\2261";
+		color: #706729;
+		font-size: 3em;
+		font-weight: bold;
+		position: relative;
+		top: -18%;
+		left: 18%;
+	}
+	
+	#thunderheader #navtoggle input:checked:before {
+		color: #FFFFFF;
+	}
+	
+	#thunderheader #datacopy {
+		display: none;
+	}
+	
+	#thunderheader #thundertitle {
+		width: 80%;
+	}
+	#thundersidenav {
+		width: 100%;
+		font-size: 18px;
+		display: none;
+	}
+}
+
 #thundercontent {
 	padding: 0px 10px;
 }
 
 #thundercontent > div:nth-child(n+3) {
-	border-top: 1px solid #00000030;
+	border-top: 1px solid #C4C1B0;
 	margin-top: 10px;
+}
+
+.thundertable-wrapper {
+	white-space: nowrap;
+	overflow-x: auto;
 }
 
 .thundertable th {
@@ -54,7 +168,14 @@
 }
 
 .thundertable tr:nth-child(n+3) {
-	border-top: 1px solid #00000030;
+	border-top: 1px solid #C4C1B0;
+}
+
+.thundertable tr > *:first-child {
+	position: -webkit-sticky;
+	position: sticky;
+	left: 0;
+	background-color: #F1EED9;
 }
 
 .thundertable th:nth-child(n+2) {
@@ -63,6 +184,7 @@
 
 .thundertable .card-cell {
 	min-width: 200px;
+	white-space: normal;
 }
 
 .thundertable .rank-cell {
@@ -76,6 +198,24 @@
 	text-align: center;
 }
 
+@media screen and (max-width: 770px) {
+	.thundertable * {
+		font-size: 0.9em;
+	}
+	
+	.thundertable .card-cell {
+		min-width: 100px;
+	}
+
+	.thundertable .rank-cell {
+		min-width: 35px;
+	}
+
+	.thundertable .diff-cell {
+		min-width: 20px;
+	}
+}
+
 .thunderselect {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -85,7 +225,8 @@
 	height: 30px;
 	border: 2px solid #DDD6A2;
 	background-color: #FFFFFF;
-	margin: 0px 10px;
+	margin: 2px 10px;
+	cursor: pointer;
 }
 
 .thunderselect.toggle2e {
@@ -118,7 +259,6 @@
 .thunderselect:checked:before {
     color: #FFFFFF;
     font-weight: bold;
-    font-size: 18px;
 }
 
 .thunderselect:checked:hover:before {
@@ -147,6 +287,13 @@
 .thunderselect.toggle2e:checked:before {
 	content: "Hide 1E Cards";
 	left: 18px;
+}
+
+@media screen and (max-width: 770px) {
+	.thunderselect:checked:hover:before {
+		color: #FFFFFF;
+		font-weight: bold;
+	}
 }
 
 	

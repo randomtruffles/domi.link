@@ -5,20 +5,31 @@ title: ThunderDominion Card Rankings
 
 <div id="wrapper">
 	<div id="thunderheader">
-		<div style="text-align:center">
+		<div id="navtoggle" title="Navigation">
+			<input type="checkbox"></input>
+		</div>
+		<div id="thundertitle">
 			<h2>ThunderDominion Card Rankings</h2>
-			<p>Each year, the <a href="/discord">Dominion Discord</a> ranks the cards in each expansion by strength. This page tracks those rankings.</p>
 			<div>
 				<input type="radio" name="display-toggle" id="tables-toggle" class="thunderselect" checked="checked"></input>
 				<input type="radio" name="display-toggle" id="charts-toggle" class="thunderselect"></input>
 			</div>
+		</div>
+		<div id="datacopy">
+			<button title="Copy Raw Data (JSON)">
+				<p>COPY</p>
+				<p>DATA</p>
+			</button>
 		</div>
 	</div>
 	<div id="thundersidenav">
 	</div>
 	<div id="thundercontent">
 		<div>
-			<p></p>
+			<p>Each year, the <a href="/discord">Dominion Discord</a> ranks the cards in each expansion by strength. This page tracks those rankings.</p>
+			<p>In addition, when new expansions are released, their cards are ranked as "hot takes," indicated here by "Hot."</p>
+			<p>Lists are constructed from multiple rounds of voting. In 2018, a selection sort was used finding the best and worst cards simultaneously. This is also the method used for the non-2E hot takes lists. In 2019, 2020, and 2022, an insertion sort was used. This is also the method used for the 2E hot takes lists, inserting the new cards into the old lists. In 2021, a quicksort was used.</p>
+			<p>In addition to these tables, you may also view the rankings as interactive charts using the Charts button above. They may take a few seconds to load at first.</p>
 		</div>
 		<div id="widthcheck"></div>
 	</div>
