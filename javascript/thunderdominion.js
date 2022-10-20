@@ -210,7 +210,7 @@ function loadPage() {
 		chart.id = expansion.toLowerCase().replace(/ /g, '-').replace('+', '') + "-chart";
 		chartdiv.appendChild(chart);
 		ediv.appendChild(chartdiv);
-		charts[expansion] = {'highlight': [], 'height': document.getElementById(expansion.toLowerCase().replace(/ /g, '-') + "-table").clientHeight - 49};
+		charts[expansion] = {'highlight': [], 'height': document.getElementById(expansion.toLowerCase().replace(/ /g, '-') + "-table").clientHeight - 34};
 		//renderChart(expansion);
 	}
 	
@@ -425,7 +425,7 @@ function renderChart(expansion) {
 						'field': 'year',
 						'type': 'ordinal',
 						'scale': {'domain': years},
-						'title': 'Ranking Time',
+						'title': null,
 						'axis': {'grid': true, 'labelAngle': 0}
 					},
 					'y': {
