@@ -309,7 +309,7 @@ function renderTable(expansion, sortBy, desc) {
 	}
 	let show1e = false;
 	if (expansion in removed) {
-		show1e = document.getElementById(expansion.replace(/ /g, '-').toLowerCase() + '-table').parentElement.childNodes[0].checked;
+		show1e = document.getElementById(expansion.replace(/ /g, '-').toLowerCase() + '-table').parentElement.parentElement.childNodes[0].childNodes[1].checked;
 	}
 	for (card of cardOrder) {
 		let row = document.createElement('tr');
