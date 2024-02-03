@@ -109,7 +109,7 @@ function loadPage() {
 			}
 		} else if (expansion == 'Promos') {
 			for (let i = 0; i < ranks[expansion]['year'].length-1; i++) {
-				if (ranks[expansion]['year'][i] == 2019) {
+				if ([2019, 2024].includes(ranks[expansion]['year'][i])) {
 					let reduced = expCards.filter(c => ranks[expansion][c].rank[i+1] !== -1).sort((a,b) => ranks[expansion][a].rank[i] - ranks[expansion][b].rank[i]);
 					for (card of expCards) {
 						if (ranks[expansion][card].rank[i] == -1 || ranks[expansion][card].rank[i+1] == -1) {
