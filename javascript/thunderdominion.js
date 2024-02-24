@@ -97,6 +97,16 @@ function loadPage() {
 							
 						}
 					}
+				} else if (ranks[expansion]['year'][i] == '2E Hot') {
+					let reducednow = expCards.filter(c => ranks[expansion][c].rank[i] !== -1 && ranks[expansion][c].rank[i+1] !== -1).sort((a,b) => ranks[expansion][a].rank[i] - ranks[expansion][b].rank[i]);
+					let reducedlast = expCards.filter(c => ranks[expansion][c].rank[i] !== -1 && ranks[expansion][c].rank[i+1] !== -1).sort((a,b) => ranks[expansion][a].rank[i+1] - ranks[expansion][b].rank[i+1]);
+					for (card of expCards) {
+						if (ranks[expansion][card].rank[i] == -1 || ranks[expansion][card].rank[i+1] == -1) {
+							ranks[expansion][card].diff.push(null);
+						} else {
+							ranks[expansion][card].diff.push(reducedlast.indexOf(card) - reducednow.indexOf(card));
+						}
+					}
 				} else {
 					for (card of expCards) {
 						if (ranks[expansion][card].rank[i] == -1 || ranks[expansion][card].rank[i+1] == -1) {
@@ -266,7 +276,7 @@ function renderTable(expansion, sortBy, desc) {
 		year.classList.add('rank-cell');
 		year.appendChild(document.createTextNode(y + (y == sortBy ? (desc ? '▼' : '▲') : '')));
 		ethead.appendChild(year);
-		if (!y.includes('Hot') && y != '2018' && !(expansion == "Menagerie Ways" && y == 2020)) {
+		if (!(y.includes('Hot') && expansion != "Cornucopia + Guilds") && y != '2018' && !(expansion == "Menagerie Ways" && y == 2020)) {
 			let pm = document.createElement('th');
 			pm.onclick = sortTable;
 			pm.classList.add('diff-cell');
@@ -331,7 +341,7 @@ function renderTable(expansion, sortBy, desc) {
 			r.classList.add('rank-cell');
 			r.appendChild(document.createTextNode(ranks[expansion][card].rank[i] == -1 ? "" : ranks[expansion][card].rank[i]));
 			row.appendChild(r);
-			if (!ranks[expansion].year[i].includes('Hot') && ranks[expansion].year[i] != '2018' && !(expansion == "Menagerie Ways" && ranks[expansion].year[i] == 2020)) {
+			if (!(ranks[expansion].year[i].includes('Hot') && expansion != "Cornucopia + Guilds") && ranks[expansion].year[i] != '2018' && !(expansion == "Menagerie Ways" && ranks[expansion].year[i] == 2020)) {
 				let d = document.createElement('td');
 				let diff = ranks[expansion][card].diff[i]
 				d.classList.add('diff-cell');
@@ -549,7 +559,7 @@ function renderChart(expansion) {
 		};
 		spec.layer[3].mark.dy = -6;
 		spec.layer.push(JSON.parse(JSON.stringify(spec.layer[3])));
-		spec.layer[4].transform[1] = ({'filter': `indexof(${JSON.stringify(mixed.Guilds)}, datum.card) != -1`});
+		spec.layer[4].transform[spec.layer[4].transform.length - 1] = ({'filter': `indexof(${JSON.stringify(mixed.Guilds)}, datum.card) != -1`});
 		spec.layer[4].mark.dy = 6;
 		spec.layer[4].selection = {
 			'lnameguilds_hovered': {'type': 'single', 'fields': ['card'], 'on': 'mouseover', 'empty': 'all'},
