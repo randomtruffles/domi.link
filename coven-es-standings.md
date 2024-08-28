@@ -2,5 +2,5 @@
 title: coven-es-standings
 owner: Rozyroz
 layout: redirect
-redirect: https://docs.google.com/spreadsheets/d/e/2PACX-1vQuq6Y4l3ZNCMI0XQssmDuUiZ7z5Pcj9zXd3MDLORg6JB_tHp8wlG02ygiiMrfZ0bypE-UKRQw__Py_/pubhtml
+redirect: https://docs.google.com/spreadsheets/d/1ky1iOCmb2GXBUdH8ZtxwtKB-dTBwS-d1LyBm7DLa3vA/pubhtml
 ---
